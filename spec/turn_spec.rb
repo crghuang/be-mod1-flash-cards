@@ -16,24 +16,38 @@ RSpec.describe Card do
     expect(turn.card).to eq(card)
   end
 
-  it 'has an guess' do
+  it 'has a guess' do
     card = Card.new("What is the capital of Alaska?", "Juneau", :Geography)
     turn = Turn.new("Juneau", card)
 
     expect(turn.guess).to eq("Juneau")
   end
 
-  it 'evaluate the guess' do
+  it 'evaluate the guess is correct' do
     card = Card.new("What is the capital of Alaska?", "Juneau", :Geography)
     turn = Turn.new("Juneau", card)
 
-    expect(turn.correct?).to be_in([true, false])
+    expect(turn.correct?).to eq(true)
   end
 
-  it 'provides feedback' do
+  it 'evaluate the guess is incorrect' do
+    card = Card.new("Which planet is closest to the sun?", "Mercury", :STEM)
+    turn = Turn.new("Saturn", card)
+
+    expect(turn.correct?).to eq(false)
+  end
+
+  it 'provides feedback if answer is correct' do
     card = Card.new("What is the capital of Alaska?", "Juneau", :Geography)
     turn = Turn.new("Juneau", card)
 
-    expect(turn.feedback).to be_in(["Correct!", "Incorrect."])
+    expect(turn.feedback).to eq("Correct!")
+  end
+
+  it 'checks if feedback if answer is incorrect' do
+    card = Card.new("Which planet is closest to the sun?", "Mercury", :STEM)
+    turn = Turn.new("Saturn", card)
+
+    expect(turn.feedback).to eq("Incorrect.")
   end
 end
